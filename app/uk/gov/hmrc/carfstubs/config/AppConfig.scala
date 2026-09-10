@@ -18,8 +18,17 @@ package uk.gov.hmrc.carfstubs.config
 
 import javax.inject.{Inject, Singleton}
 import play.api.Configuration
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
-class AppConfig @Inject() (config: Configuration):
-
+class AppConfig @Inject() (config: Configuration, servicesConfig: ServicesConfig) {
   val appName: String = config.get[String]("appName")
+
+  val carfReportingBaseUrl: String = servicesConfig.baseUrl("carf-reporting")
+
+  val bearerToken: String => String = (serviceName: String) =>
+    config.get[String](s"microservice.services.$serviceName.bearer-token")
+
+  val fastCallbackTimeInSeconds: Int = config.get[Int]("microservice.services.br-response.fast-callback-seconds")
+  val slowCallbackTimeInSeconds: Int = config.get[Int]("microservice.services.br-response.slow-callback-seconds")
+}

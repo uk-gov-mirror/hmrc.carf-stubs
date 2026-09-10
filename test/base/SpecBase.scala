@@ -44,7 +44,8 @@ trait SpecBase
     with TestSuite
     with FakeApplicationFactory
     with BaseOneAppPerSuite
-    with MockitoSugar {
+    with MockitoSugar
+    with TestData {
 
   override def fakeApplication(): Application =
     GuiceApplicationBuilder()
